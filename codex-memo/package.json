@@ -1,0 +1,107 @@
+{
+  "name": "codex-memo",
+  "displayName": "Memo",
+  "description": "Git-shared Overleaf-style memos for VS Code workspaces.",
+  "version": "0.0.7",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:codexMemo.memos",
+    "onCommand:codexMemo.addMemo",
+    "onCommand:codexMemo.focus"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codexMemo.addMemo",
+        "title": "Add Memo",
+        "category": "Memo"
+      },
+      {
+        "command": "codexMemo.focus",
+        "title": "Focus Memos",
+        "category": "Memo"
+      }
+    ],
+    "configuration": {
+      "title": "Memo",
+      "properties": {
+        "codexMemo.authorName": {
+          "type": "string",
+          "default": "",
+          "description": "Author name to use when git user.name is not available."
+        },
+        "codexMemo.alignment.topOffsetPx": {
+          "type": "number",
+          "default": -20,
+          "description": "Extra vertical offset in pixels applied to every memo card. Use a negative value if cards appear too low."
+        },
+        "codexMemo.alignment.lineHeightPx": {
+          "type": "number",
+          "default": 0,
+          "description": "Optional editor line-height override in pixels. When 0, Memo estimates line height from the visible range and sidebar height."
+        },
+        "codexMemo.alignment.lineScale": {
+          "type": "number",
+          "default": 1,
+          "description": "Multiplier applied to the computed line offset. Use this when cards drift more as they go down the file."
+        },
+        "codexMemo.alignment.cardAnchorOffsetPx": {
+          "type": "number",
+          "default": 0,
+          "description": "Offset from the memo card top to the visual anchor point. Use a negative value to align the card body/header higher."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "codexMemo.addMemo",
+        "key": "alt+m",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "codexMemo.addMemo",
+          "when": "editorHasSelection",
+          "group": "navigation@15"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codexMemo",
+          "title": "Memos",
+          "icon": "resources/memo.svg"
+        }
+      ]
+    },
+    "views": {
+      "codexMemo": [
+        {
+          "id": "codexMemo.memos",
+          "name": "Memos",
+          "type": "webview"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.5.3"
+  }
+}
